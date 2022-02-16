@@ -1,0 +1,14 @@
+{
+  "compilerOptions": { /* Docs: https://www.typescriptlang.org/tsconfig */
+    "target": "es5",
+    "module": "commonjs",
+},
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "<node_internals>/**",
+  ]
+}
