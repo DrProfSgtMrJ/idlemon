@@ -1,6 +1,6 @@
 {
   "compilerOptions": { /* Docs: https://www.typescriptlang.org/tsconfig */
-    "target": "es5",
+    "target": "es2020",
     "module": "commonjs",
 },
   "include": [

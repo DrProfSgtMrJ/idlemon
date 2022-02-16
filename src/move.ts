@@ -6,18 +6,26 @@ Class defining a move that can be used by an idlemon
         type : string : the string name of the type
 */
 
+import { IdleMon } from './idlemon';
 import { typeList } from './type';
 
 export class Move {
     typeName : string;
-    constructor(public name: string, private typeNum: number) {
+    constructor(public name: string, private typeNum: number, public usageFunction: (you : IdleMon, them: IdleMon, ...args: any[]) => void) {
         this.name = name;
-        this.typeNum = typeNum; 
-        this.typeName = typeList[typeNum];
+        if (typeNum < typeList.length) {
+            this.typeNum = typeNum; 
+            this.typeName = typeList[typeNum];
+        }
+        else {
+            console.error("typeNum: " + typeNum + " is an invalid type");
+        }
+        this.usageFunction = usageFunction;
     }
 
-    use() {
-        console.log("Use" + this.name);
+    use(you: IdleMon, them : IdleMon, ...args: any[]) {
+        console.log(you.name + " Used " + this.name + " on " + them.name);
+        this.usageFunction(you, them, args);
     }
 
     info() : string{

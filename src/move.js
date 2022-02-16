@@ -8,21 +8,28 @@ Class defining a move that can be used by an idlemon
 */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Move = void 0;
-var type_1 = require("./type");
-var Move = /** @class */ (function () {
-    function Move(name, typeNum) {
+const type_1 = require("./type");
+class Move {
+    constructor(name, typeNum, usageFunction) {
         this.name = name;
         this.typeNum = typeNum;
+        this.usageFunction = usageFunction;
         this.name = name;
-        this.typeNum = typeNum;
-        this.typeName = type_1.typeList[typeNum];
+        if (typeNum < type_1.typeList.length) {
+            this.typeNum = typeNum;
+            this.typeName = type_1.typeList[typeNum];
+        }
+        else {
+            console.error("typeNum: " + typeNum + " is an invalid type");
+        }
+        this.usageFunction = usageFunction;
     }
-    Move.prototype.use = function () {
-        console.log("Use" + this.name);
-    };
-    Move.prototype.info = function () {
+    use(you, them, ...args) {
+        console.log(you.name + " Used " + this.name + " on " + them.name);
+        this.usageFunction(you, them, args);
+    }
+    info() {
         return "Name: " + this.name + ", Type: " + this.typeName;
-    };
-    return Move;
-}());
+    }
+}
 exports.Move = Move;

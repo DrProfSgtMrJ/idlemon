@@ -16,55 +16,52 @@ This class contains the basis for an idlemon
 */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IdleMon = void 0;
-var type_1 = require("./type");
-var MAX_LEVEL = 100;
-var IdleMon = /** @class */ (function () {
-    function IdleMon(name, attack, defense, speed, moves, allowed_moves, level, typeNum) {
+const type_1 = require("./type");
+const MAX_LEVEL = 100;
+const MAX_XP = 100;
+class IdleMon {
+    constructor(name, health, attack, defense, speed, moves, allowed_moves, level, typeNum) {
         this.name = name;
+        this.health = health;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
         this.moves = moves;
         this.allowedMoves = allowed_moves;
         this.level = level;
-        this.typeName = type_1.typeList[typeNum];
+        if (typeNum < type_1.typeList.length) {
+            this.typeNum = typeNum;
+            this.typeName = type_1.typeList[typeNum];
+        }
+        else {
+            console.error("typeNum: " + typeNum + " is an invalid type");
+        }
         this.xp = 0;
     }
-    IdleMon.prototype.usemove = function (mvoeName) {
-        var move = this.moves.filter(function (m) { return m.name === mvoeName; });
+    useMoveOn(moveName, them) {
+        const move = this.moves.filter(m => m.name === moveName);
         if (move.length == 1) {
-            move[0].use();
+            move[0].use(this, them);
         }
         else {
-            console.error("Invalid move: " + mvoeName);
+            console.error("Invalid move: " + moveName);
         }
-    };
-    IdleMon.prototype.gainXP = function (xpGain) {
-        if ((this.xp + xpGain) >= 100) {
-            var numLvlUp = Math.floor((this.xp + xpGain) / 100);
-            this.xp = (this.xp + xpGain) % 100;
-            while (numLvlUp > 0) {
-                this.levelUp();
-                numLvlUp--;
-            }
-        }
-        else {
-            this.xp += xpGain;
-        }
-    };
-    IdleMon.prototype.levelUp = function () {
-        if (this.level + 1 <= MAX_LEVEL) {
-            this.level++;
-        }
-    };
-    IdleMon.prototype.info = function () {
+    }
+    gainXP(xpGain) {
+        let numLvlUp = Math.floor((this.xp + xpGain) / MAX_XP);
+        this.xp = (this.xp + xpGain) % MAX_XP; // can't exceed MAX_XP
+        this.levelUp(numLvlUp);
+    }
+    levelUp(numLvlUp) {
+        this.level = (this.level + numLvlUp) % MAX_LEVEL; // can't level up past MAX_LEVEL
+    }
+    info() {
         var info = "Info:\n\tName: " + this.name + "\n\tType: " + this.typeName + "\n\tLevel: " + this.level;
         info += "\n\tMoves: ";
-        this.moves.forEach(function (move) {
+        this.moves.forEach(move => {
             info += "\n\t\t" + move.info();
         });
         return info;
-    };
-    return IdleMon;
-}());
+    }
+}
 exports.IdleMon = IdleMon;
