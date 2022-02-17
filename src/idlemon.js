@@ -26,8 +26,13 @@ class IdleMon {
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
-        this.moves = moves;
         this.allowedMoves = allowed_moves;
+        if (this.areValidMoves(moves, allowed_moves)) {
+            this.moves = moves;
+        }
+        else {
+            console.error("Invalid set of moves");
+        }
         this.level = level;
         if (typeNum < type_1.typeList.length) {
             this.typeNum = typeNum;
@@ -62,6 +67,10 @@ class IdleMon {
             info += "\n\t\t" + move.info();
         });
         return info;
+    }
+    areValidMoves(moves, allowedMoves) {
+        let itersection = moves.filter(move => allowedMoves.includes(move));
+        return itersection.length === moves.length;
     }
 }
 exports.IdleMon = IdleMon;

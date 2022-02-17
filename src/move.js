@@ -31,5 +31,8 @@ class Move {
     info() {
         return "Name: " + this.name + ", Type: " + this.typeName;
     }
+    static equals(other) {
+        return this.name === other.name;
+    }
 }
 exports.Move = Move;

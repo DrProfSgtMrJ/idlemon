@@ -31,4 +31,8 @@ export class Move {
     info() : string {
         return "Name: " + this.name + ", Type: " + this.typeName;
     }
+
+    static equals(this, other: Move) : boolean {
+        return this.name === other.name;
+    }
 }   
