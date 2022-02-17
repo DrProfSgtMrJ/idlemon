@@ -14,8 +14,8 @@ function createFirstIdleMon(name) {
     moveSet.push(moves_1.nameToMoveMap.get(moves_1.MoveNames.StompName));
     allowedMoves.push(moves_1.nameToMoveMap.get(moves_1.MoveNames.StompName));
     allowedMoves.push(moves_1.nameToMoveMap.get(moves_1.MoveNames.HeadbuttName));
-    var firstIdleMon = new idlemon_1.IdleMon(name, health, attack, defense, speed, moveSet, allowedMoves, lvl, type_1.humanIndex);
-    var secondIdleMon = new idlemon_1.IdleMon("enemy", health, attack, defense, speed, moveSet, allowedMoves, lvl, type_1.humanIndex);
+    var firstIdleMon = new idlemon_1.IdleMon(name, health, attack, defense, speed, moveSet, allowedMoves, lvl, type_1.TypeInfo.HumanIndex);
+    var secondIdleMon = new idlemon_1.IdleMon("enemy", health, attack, defense, speed, moveSet, allowedMoves, lvl, type_1.TypeInfo.HumanIndex);
     console.log(firstIdleMon.info());
     console.log(secondIdleMon.info());
     firstIdleMon.useMoveOn(moves_1.MoveNames.StompName, secondIdleMon);

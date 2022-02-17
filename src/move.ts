@@ -7,15 +7,15 @@ Class defining a move that can be used by an idlemon
 */
 
 import { IdleMon } from './idlemon';
-import { typeList } from './type';
+import { TypeInfo } from './type';
 
 export class Move {
     typeName : string;
     constructor(public name: string, public typeNum: number, public usageFunction: (you : IdleMon, them: IdleMon, ...args: any[]) => void) {
         this.name = name;
-        if (typeNum < typeList.length) {
+        if (typeNum < TypeInfo.TypeList.length) {
             this.typeNum = typeNum; 
-            this.typeName = typeList[typeNum];
+            this.typeName = TypeInfo.TypeList[typeNum];
         }
         else {
             console.error("typeNum: " + typeNum + " is an invalid type");

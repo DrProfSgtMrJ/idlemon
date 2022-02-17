@@ -34,14 +34,25 @@ class IdleMon {
             console.error("Invalid set of moves");
         }
         this.level = level;
-        if (typeNum < type_1.typeList.length) {
+        if (typeNum < type_1.TypeInfo.TypeList.length) {
             this.typeNum = typeNum;
-            this.typeName = type_1.typeList[typeNum];
+            this.typeName = type_1.TypeInfo.TypeList[typeNum];
         }
         else {
             console.error("typeNum: " + typeNum + " is an invalid type");
         }
         this.xp = 0;
+    }
+    isSameType(typeNum) {
+        return typeNum === this.typeNum;
+    }
+    isMoveSuperEffetiveAgainstYou(typeNum) {
+        // true if typeNum is super effective to you 
+        return type_1.TypeInfo.TypeSuperEffectiveNumMap[typeNum] === this.typeNum;
+    }
+    isMoveWeakAgainstYou(typeNum) {
+        // true if typeNum is weak against you
+        return type_1.TypeInfo.TypeWeaknessNumMap[typeNum] === this.typeNum;
     }
     useMoveOn(moveName, them) {
         const move = this.moves.filter(m => m.name === moveName);

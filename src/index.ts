@@ -1,7 +1,7 @@
 import { IdleMon } from "./idlemon";
 import { Move } from "./move";
 import { MoveNames, nameToMoveMap } from "./moves";
-import { humanIndex, typeSuperEffectiveNumMap, typeWeaknessNumMap } from "./type";
+import { TypeInfo } from "./type";
 
 
 function createFirstIdleMon(name : string) {
@@ -20,8 +20,8 @@ function createFirstIdleMon(name : string) {
         allowedMoves.push(nameToMoveMap.get(MoveNames.HeadbuttName));
 
 
-        var firstIdleMon : IdleMon = new IdleMon(name, health, attack, defense, speed, moveSet, allowedMoves, lvl, humanIndex);
-        var secondIdleMon : IdleMon = new IdleMon("enemy", health, attack, defense, speed, moveSet, allowedMoves, lvl, humanIndex);
+        var firstIdleMon : IdleMon = new IdleMon(name, health, attack, defense, speed, moveSet, allowedMoves, lvl, TypeInfo.HumanIndex);
+        var secondIdleMon : IdleMon = new IdleMon("enemy", health, attack, defense, speed, moveSet, allowedMoves, lvl, TypeInfo.HumanIndex);
         console.log(firstIdleMon.info());
         console.log(secondIdleMon.info());
         firstIdleMon.useMoveOn(MoveNames.StompName, secondIdleMon);

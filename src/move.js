@@ -15,9 +15,9 @@ class Move {
         this.typeNum = typeNum;
         this.usageFunction = usageFunction;
         this.name = name;
-        if (typeNum < type_1.typeList.length) {
+        if (typeNum < type_1.TypeInfo.TypeList.length) {
             this.typeNum = typeNum;
-            this.typeName = type_1.typeList[typeNum];
+            this.typeName = type_1.TypeInfo.TypeList[typeNum];
         }
         else {
             console.error("typeNum: " + typeNum + " is an invalid type");

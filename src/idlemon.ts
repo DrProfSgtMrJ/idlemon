@@ -15,7 +15,7 @@ This class contains the basis for an idlemon
 */
 
 import { Move } from "./move";
-import { typeList } from "./type";
+import { TypeInfo } from "./type";
 
 const MAX_LEVEL : number = 100;
 const MAX_XP : number = 100;
@@ -47,14 +47,28 @@ export class IdleMon {
             console.error("Invalid set of moves");
         }
         this.level = level;
-        if (typeNum < typeList.length) {
+        if (typeNum < TypeInfo.TypeList.length) {
             this.typeNum = typeNum;
-            this.typeName = typeList[typeNum];
+            this.typeName = TypeInfo.TypeList[typeNum];
         }
         else {
             console.error("typeNum: " + typeNum + " is an invalid type");
         }
         this.xp = 0;
+    }
+
+    isSameType(typeNum: number) : boolean {
+        return typeNum === this.typeNum;
+    }
+
+    isMoveSuperEffetiveAgainstYou(typeNum: number) {
+        // true if typeNum is super effective to you 
+        return TypeInfo.TypeSuperEffectiveNumMap[typeNum] === this.typeNum;
+    }
+
+    isMoveWeakAgainstYou(typeNum: number) {
+        // true if typeNum is weak against you
+        return TypeInfo.TypeWeaknessNumMap[typeNum] === this.typeNum;
     }
 
     useMoveOn(moveName: string, them: IdleMon) {

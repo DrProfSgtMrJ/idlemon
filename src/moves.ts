@@ -2,17 +2,18 @@
 
 import { IdleMon } from "./idlemon";
 import { Move } from "./move";
-import { humanIndex, typeSuperEffectiveNumMap, typeWeaknessNumMap } from "./type";
+import { TypeInfo } from "./type";
 
 
 export class MoveNames {
     static readonly HeadbuttName = "Headbutt";
     static readonly StompName = "Stomp";
+    static readonly 
 }
 
 
-let headbutt = new Move(MoveNames.HeadbuttName, humanIndex, headbuttFunction);
-let stomp = new Move(MoveNames.StompName, humanIndex, stompFunction);
+let headbutt = new Move(MoveNames.HeadbuttName, TypeInfo.HumanIndex, headbuttFunction);
+let stomp = new Move(MoveNames.StompName, TypeInfo.HumanIndex, stompFunction);
 
 export let nameToMoveMap = new Map<string, Move>([
     [MoveNames.HeadbuttName, headbutt],
@@ -22,19 +23,17 @@ export let nameToMoveMap = new Map<string, Move>([
 // headbutt is a super strong move that will ignore the enemy's defense
 // but it will hurt you for half the damage done to them
 function headbuttFunction(you: IdleMon, them: IdleMon) {
-    // check if the move is of the sametype as you
-    let moveIsOfSameTypeAsYou : boolean = humanIndex === you.typeNum;
-
+    let type = TypeInfo.HumanIndex;
     // damage will first start with your attack
     // will use full attack if same type as you, otherwise, do 75% of your attack
-    var damage : number = moveIsOfSameTypeAsYou ? you.attack : you.attack * 0.75; 
+    var damage : number = you.isSameType(type) ? you.attack : you.attack * 0.75; 
 
-    if (isSuperEffective(humanIndex, them.typeNum)) {
+    if (them.isMoveSuperEffetiveAgainstYou(type)) {
         console.log("IT'S SUPER EFFECTIVE");
         // do 2* the damage if super effective to them
         damage = damage * 2;
     }
-    else if (isWeak(humanIndex, them.typeNum)) {
+    else if (them.isMoveWeakAgainstYou(type)) {
         console.log("It's not very effetive...");
         // do 25% of the damage if weak to them
         damage - damage * 0.25;
@@ -51,19 +50,18 @@ function headbuttFunction(you: IdleMon, them: IdleMon) {
 }
 
 function stompFunction(you: IdleMon, them: IdleMon) {
-    // check if the move is of the sametype as you
-    let moveIsOfSameTypeAsYou : boolean = humanIndex === you.typeNum;
-
+    let type = TypeInfo.HumanIndex;
     // damage will first start with your attack
     // will use full attack if same type as you, otherwise, do 75% of your attack
-    var damage : number = moveIsOfSameTypeAsYou ? you.attack : you.attack * 0.75; 
+    var damage : number = you.isSameType(type) ? you.attack : you.attack * 0.75; 
+    // check if the move is of the sametype as you
 
-    if (isSuperEffective(humanIndex, them.typeNum)) {
+    if (them.isMoveSuperEffetiveAgainstYou(type)) {
         console.log("IT'S SUPER EFFECTIVE");
         // do 2* the damage if super effective to them
         damage = damage * 2;
     }
-    else if (isWeak(humanIndex, them.typeNum)) {
+    else if (them.isMoveWeakAgainstYou(type)) {
         console.log("It's not very effetive...");
         // do 25% of the damage if weak to them
         damage - damage * 0.25;
@@ -77,14 +75,10 @@ function stompFunction(you: IdleMon, them: IdleMon) {
     console.log(them.name + " was stomped for " + damage + " damage" + " new defense: " + them.defense + " new health: " + them.health);
 }
 
-
-
-function isSuperEffective(typeIndex : number, typeIndex2 : number): boolean {
-    // true if typeIndex is super effective to typeIndex2
-    return typeSuperEffectiveNumMap[typeIndex] === typeIndex2;
-}
-
-function isWeak(typeIndex: number, typeIndex2 : number): boolean {
-    // true if typeIndex is weak against typeIndex2
-    return typeWeaknessNumMap[typeIndex] === typeIndex2;
-}
+// class of arrays of moves filtered by type
+export class MoveArrays {
+    static HumanMovesArray: Array<Move> = [...nameToMoveMap.values()].filter(move => move.typeNum === TypeInfo.HumanIndex);
+    static LizarMovesArray: Array<Move> = [...nameToMoveMap.values()].filter(move => move.typeNum === TypeInfo.LizardIndex);
+    static MagicMovesArray: Array<Move> = [...nameToMoveMap.values()].filter(move => move.typeNum === TypeInfo.MagicIndex);
+    static SpaghettiMovesArray: Array<Move> = [...nameToMoveMap.values()].filter(move => move.typeNum === TypeInfo.SpaghettiIndex);
+};
