@@ -11,7 +11,7 @@ import { typeList } from './type';
 
 export class Move {
     typeName : string;
-    constructor(public name: string, private typeNum: number, public usageFunction: (you : IdleMon, them: IdleMon, ...args: any[]) => void) {
+    constructor(public name: string, public typeNum: number, public usageFunction: (you : IdleMon, them: IdleMon, ...args: any[]) => void) {
         this.name = name;
         if (typeNum < typeList.length) {
             this.typeNum = typeNum; 
@@ -28,7 +28,7 @@ export class Move {
         this.usageFunction(you, them, args);
     }
 
-    info() : string{
+    info() : string {
         return "Name: " + this.name + ", Type: " + this.typeName;
     }
 }   
