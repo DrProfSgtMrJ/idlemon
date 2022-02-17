@@ -8,16 +8,24 @@ import { TypeInfo } from "./type";
 export class MoveNames {
     static readonly HeadbuttName = "Headbutt";
     static readonly StompName = "Stomp";
-    static readonly 
+    static readonly SpitName = "Spit";
+}
+
+export class MoveDescriptions {
+    static readonly HeadbuttDescription = "A powerfull move that inflicts damage onto the user as well";
+    static readonly StompDescription = "A basic attack";
+    static readonly SpitDescription = "An attack that inflicts damage over time to a target";
 }
 
 
-let headbutt = new Move(MoveNames.HeadbuttName, TypeInfo.HumanIndex, headbuttFunction);
-let stomp = new Move(MoveNames.StompName, TypeInfo.HumanIndex, stompFunction);
+let headbutt = new Move(MoveNames.HeadbuttName, TypeInfo.HumanIndex, MoveDescriptions.HeadbuttDescription, headbuttFunction);
+let stomp = new Move(MoveNames.StompName, TypeInfo.HumanIndex, MoveDescriptions.StompDescription, stompFunction);
+let spit = new Move(MoveNames.SpitName, TypeInfo.LizardIndex, MoveDescriptions.SpitDescription, spitFunction);
 
 export let nameToMoveMap = new Map<string, Move>([
     [MoveNames.HeadbuttName, headbutt],
-    [MoveNames.StompName, stomp]
+    [MoveNames.StompName, stomp],
+    [MoveNames.SpitName, spit]
 ]);
 
 // headbutt is a super strong move that will ignore the enemy's defense
@@ -43,12 +51,14 @@ function headbuttFunction(you: IdleMon, them: IdleMon) {
     damage = damage * 1.75;
     them.health = them.health - damage;
     console.log(them.name + " was headbutted for " + damage + " damage" + " new health: " + them.health);
-    // you get hurt for 1/2 of your damage done
-    let hurtBy : number = (damage * 0.5);
+    // you get hurt for 3/4 of your damage done
+    let hurtBy : number = (damage * 0.75);
     you.health = you.health - hurtBy;
-    console.log(you.name + " was hurt for " + (hurtBy) +". OUCH!");
+    console.log(you.name + " was hurt for " + (hurtBy) +". OUCH! New health: " + you.health);
+    
 }
 
+// a basic attack essentially
 function stompFunction(you: IdleMon, them: IdleMon) {
     let type = TypeInfo.HumanIndex;
     // damage will first start with your attack
@@ -73,6 +83,10 @@ function stompFunction(you: IdleMon, them: IdleMon) {
     them.defense = reduceHealthBy <= 0 ? 0 : them.defense - damage;
     them.health = reduceHealthBy <= 0 ? them.health + reduceHealthBy : them.health;
     console.log(them.name + " was stomped for " + damage + " damage" + " new defense: " + them.defense + " new health: " + them.health);
+}
+
+function spitFunction(you: IdleMon, them: IdleMon) {
+
 }
 
 // class of arrays of moves filtered by type

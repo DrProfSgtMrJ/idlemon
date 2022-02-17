@@ -11,7 +11,7 @@ import { TypeInfo } from './type';
 
 export class Move {
     typeName : string;
-    constructor(public name: string, public typeNum: number, public usageFunction: (you : IdleMon, them: IdleMon, ...args: any[]) => void) {
+    constructor(public name: string, public typeNum: number, public description: string, public usageFunction: (you : IdleMon, them: IdleMon, ...args: any[]) => void) {
         this.name = name;
         if (typeNum < TypeInfo.TypeList.length) {
             this.typeNum = typeNum; 
@@ -20,6 +20,7 @@ export class Move {
         else {
             console.error("typeNum: " + typeNum + " is an invalid type");
         }
+        this.description = description;
         this.usageFunction = usageFunction;
     }
 
@@ -29,7 +30,7 @@ export class Move {
     }
 
     info() : string {
-        return "Name: " + this.name + ", Type: " + this.typeName;
+        return "Name: " + this.name + ", Type: " + this.typeName + "\nDescription: " + this.description;
     }
 
     static equals(this, other: Move) : boolean {

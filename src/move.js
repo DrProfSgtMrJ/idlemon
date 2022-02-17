@@ -10,9 +10,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Move = void 0;
 const type_1 = require("./type");
 class Move {
-    constructor(name, typeNum, usageFunction) {
+    constructor(name, typeNum, description, usageFunction) {
         this.name = name;
         this.typeNum = typeNum;
+        this.description = description;
         this.usageFunction = usageFunction;
         this.name = name;
         if (typeNum < type_1.TypeInfo.TypeList.length) {
@@ -22,6 +23,7 @@ class Move {
         else {
             console.error("typeNum: " + typeNum + " is an invalid type");
         }
+        this.description = description;
         this.usageFunction = usageFunction;
     }
     use(you, them, ...args) {
@@ -29,7 +31,7 @@ class Move {
         this.usageFunction(you, them, args);
     }
     info() {
-        return "Name: " + this.name + ", Type: " + this.typeName;
+        return "Name: " + this.name + ", Type: " + this.typeName + "\nDescription: " + this.description;
     }
     static equals(other) {
         return this.name === other.name;
